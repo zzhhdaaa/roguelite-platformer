@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -11,6 +12,10 @@ public class PlayerMovement : MonoBehaviour
 
     public float jumpUpGravity = 3;
     public float fallDownGravity = 6;
+
+    public UnityEvent OnLand;
+    public UnityEvent OnJump;
+    
 
     private void Start()
     {
@@ -24,6 +29,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.K) && mCollisionObjectCount > 0)
         {
             mRigidbody2D.velocity = new Vector2(mRigidbody2D.velocity.x, jumpSpeed);
+            OnJump?.Invoke();
         }
 
         mRigidbody2D.velocity = new Vector2(horizontal * horizontalMovementSpeed, mRigidbody2D.velocity.y);
@@ -43,6 +49,7 @@ public class PlayerMovement : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D col)
     {
         mCollisionObjectCount++;
+        OnLand?.Invoke();
     }
 
     private void OnCollisionExit2D(Collision2D col)

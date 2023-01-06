@@ -2,18 +2,19 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LevelPass : MonoBehaviour
 {
-    public Text levelPassText;
+    public UnityEvent OnPass;
 
     private void OnTriggerEnter2D(Collider2D col)
     {
         var currentScene = SceneManager.GetActiveScene();
 
-        levelPassText.gameObject.SetActive(true);
+        OnPass?.Invoke();
 
         StartCoroutine(Delay(2.0f, () =>
         {
